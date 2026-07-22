@@ -16,16 +16,18 @@ DB_URL=jdbc:mysql://<RDS_ENDPOINT>:3306/sistema_inventario?useSSL=false&allowPub
 ```
 
 ### Frontend
-Crear un archivo .env en la carpeta frontend super pro/frontend con:
+Si Nginx hará proxy al backend, no necesitas fijar una IP pública en el frontend. Puedes omitir el archivo .env o dejarlo vacío:
 
 ```env
-VITE_API_URL=http://<IP_PUBLICA_EC2>:3000
+VITE_API_URL=
 ```
 
 ## Recomendación de despliegue
 - Backend: correr en una instancia EC2
 - Frontend: servirlo con Nginx desde la misma EC2
 - Base de datos: usar RDS MySQL
+
+Con el frontend usando rutas relativas `/api`, la aplicación no depende de que la IP pública de la EC2 se mantenga igual después de reinicios.
 
 ## Notas
 - No subir credenciales reales a GitHub
