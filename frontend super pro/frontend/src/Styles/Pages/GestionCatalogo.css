@@ -1,0 +1,270 @@
+.catalogo-container {
+  background-color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.catalogo-content {
+  padding: 32px 24px;
+}
+
+.catalogo-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.catalogo-subtitle {
+  font-size: 16px;
+  color: #6b6b6b;
+  margin: 2px 0 0 0;
+}
+
+/* Stat cards */
+.catalogo-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.catalogo-stat-card {
+  background-color: #ffffff;
+  border: 0.8px solid #ddd;
+  border-radius: 16px;
+  padding: 20.8px;
+}
+
+.catalogo-stat-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #aaaaaa;
+  letter-spacing: 0.9px;
+  margin: 0;
+}
+
+.catalogo-stat-value {
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+  margin: 8px 0 0 0;
+}
+
+.catalogo-stat-bar {
+  display: inline-block;
+  width: 32px;
+  height: 4px;
+  border-radius: 999px;
+  margin-top: 8px;
+  opacity: 0.4;
+}
+
+.catalogo-stat-bar-purple { background-color: #5f48c8; }
+.catalogo-stat-bar-blue { background-color: #1a5fb4; }
+.catalogo-stat-bar-green { background-color: #1f7a4e; }
+
+/* Columns */
+.catalogo-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.catalogo-list-card {
+  background-color: #ffffff;
+  border: 0.8px solid #ddd;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.catalogo-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 16.8px 20px;
+  border-bottom: 0.8px solid #f3f4f6;
+}
+
+.catalogo-list-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.catalogo-count-badge {
+  background-color: #f3f4f6;
+  color: #99a1af;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.catalogo-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px 12.8px 20px;
+  border-bottom: 0.8px solid #f3f4f6;
+}
+
+.catalogo-item-row:last-child {
+  border-bottom: none;
+}
+
+.catalogo-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.catalogo-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Add section */
+.catalogo-add-section {
+  border-top: 0.8px dashed #cccccc;
+}
+
+.catalogo-delete-section {
+   border-top: 0.8px dashed #cccccc;
+ }
+
+ .catalogo-delete-toggle {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   background: none;
+   border: none;
+   color: #b42318;
+   font-size: 14px;
+   font-weight: 500;
+   padding: 12.8px 20px 12px 20px;
+   cursor: pointer;
+   width: 100%;
+ }
+
+ .catalogo-delete-icon {
+   width: 24px;
+   height: 24px;
+   border: 0.8px dashed #b42318;
+   border-radius: 999px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-shrink: 0;
+ }
+
+ .catalogo-delete-confirm-button {
+   flex: 1;
+   height: 37.6px;
+   background-color: #b42318;
+   border: none;
+   border-radius: 10px;
+   font-size: 14px;
+   font-weight: 500;
+   color: #ffffff;
+   cursor: pointer;
+ }
+
+ .catalogo-delete-confirm-button:disabled {
+   opacity: 0.4;
+   cursor: not-allowed;
+ }
+
+.catalogo-add-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #aaaaaa;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12.8px 20px 12px 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.catalogo-add-icon {
+  width: 24px;
+  height: 24px;
+  border: 0.8px dashed #aaaaaa;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.catalogo-add-form {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.catalogo-add-form-shaded {
+  background-color: #f9fafb;
+}
+
+.catalogo-form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.catalogo-form-row .catalogo-input:first-child {
+  flex: 1;
+}
+
+.catalogo-input {
+  height: 37.6px;
+  border: 0.8px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0 12.8px;
+  font-size: 14px;
+  color: #0a0a0a;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.catalogo-form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.catalogo-cancel-button {
+  flex: 1;
+  height: 37.6px;
+  background-color: #ffffff;
+  border: 0.8px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0a0a0a;
+  cursor: pointer;
+}
+
+.catalogo-save-button {
+  flex: 1;
+  height: 37.6px;
+  background-color: #0a0a0a;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+}

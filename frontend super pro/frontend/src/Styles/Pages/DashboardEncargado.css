@@ -1,0 +1,217 @@
+.encargado-dashboard {
+  background-color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.encargado-content {
+   --encargado-navbar-bg: #1f7a4e;
+   --encargado-border: rgba(0, 0, 0, 0.1);
+   --encargado-danger-bg: #fde2e2;
+   --encargado-danger-text: #b42318;
+ }
+
+/* NavBar (idéntico en estructura al de Dueño, colores por rol) */
+.encargado-navbar {
+  background-color: var(--encargado-navbar-bg);
+  height: 53px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.encargado-navbar-links {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.encargado-navlink {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: #99a1af;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.encargado-navlink-active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.encargado-navbadge {
+  position: absolute;
+  top: -6px;
+  right: 2px;
+  background-color: #fb2c36;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 999px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.encargado-navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.encargado-role-pill {
+  background-color: #f9fafb;
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.encargado-logout-button {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Content */
+.encargado-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.encargado-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #101828;
+  margin: 0;
+}
+
+.encargado-subtitle {
+  font-size: 16px;
+  color: #6a7282;
+  margin: 4px 0 0 0;
+}
+
+/* Stat cards */
+.encargado-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.encargado-stat-card {
+  background-color: #ffffff;
+  border: 0.8px solid var(--encargado-border);
+  border-radius: 14px;
+  padding: 24.8px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.encargado-stat-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333333;
+  flex-shrink: 0;
+}
+
+.encargado-stat-value {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+  color: #0a0a0a;
+}
+
+.encargado-stat-label {
+  font-size: 14px;
+  color: #000000;
+  margin: 4px 0 0 0;
+}
+
+/* Alerts */
+.encargado-alerts-section {
+  margin-top: 40px;
+}
+
+.encargado-alerts-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #101828;
+  margin: 0;
+}
+
+.encargado-table-wrapper {
+  border: 0.8px solid var(--encargado-border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.encargado-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.encargado-table th {
+  text-align: left;
+  color: #0a0a0a;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-bottom: 0.8px solid var(--encargado-border);
+}
+
+.encargado-table td {
+  padding: 14px 16px;
+  border-bottom: 0.8px solid var(--encargado-border);
+  color: #222222;
+}
+
+.encargado-row-alert {
+  background-color: #fef2f2;
+}
+
+.encargado-stock-value {
+  color: #d08700;
+}
+
+.encargado-badge {
+  background-color: var(--encargado-danger-bg);
+  color: var(--encargado-danger-text);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.encargado-alerts-footer {
+  margin-top: 16px;
+}
+
+.encargado-link-button {
+  background: transparent;
+  border: none;
+  color: #155dfc;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}

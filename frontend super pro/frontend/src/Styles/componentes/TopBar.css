@@ -1,0 +1,21 @@
+.topbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  background-color: #ffffff;
+  border-bottom: 0.8px solid var(--app-border, #e5e7eb);
+}
+
+.topbar-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.topbar-subtitle {
+  font-size: 13px;
+  color: var(--app-muted-text, #6a7282);
+  margin: 2px 0 0 0;
+}

@@ -1,0 +1,375 @@
+.venta-container {
+  background-color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.venta-content {
+  padding: 0;
+}
+
+.venta-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 26px 0 26px;
+}
+
+/* Header */
+/*.venta-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 33px 26px 16px 26px;
+  border-bottom: 0.8px solid var(--app-border);
+}
+*/
+.venta-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+/*
+.venta-header-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background-color: var(--app-accent-green);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.venta-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #0a0a0a;
+  margin: 0;
+}*/
+
+.venta-history-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  border: 0.8px solid var(--app-border);
+  border-radius: 10px;
+  padding: 8.8px 12.8px;
+  font-size: 14px;
+  color: #0a0a0a;
+  cursor: pointer;
+}
+
+/* Success banner */
+.venta-success-banner {
+  margin: 24px 26px 0 26px;
+  background-color: var(--app-success-bg);
+  color: #15803d;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12.8px 16.8px;
+  border-radius: 10px;
+}
+
+/* Body layout */
+.venta-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 24px 26px;
+}
+
+/* Search / add product card */
+.venta-search-card {
+  background-color: #ffffff;
+  border: 0.8px solid var(--app-border);
+  border-radius: 14px;
+  padding: 20.8px;
+  width: 340px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.venta-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0a0a0a;
+}
+
+.venta-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.venta-select-icon {
+  position: absolute;
+  left: 12.8px;
+  color: var(--app-muted-text);
+  pointer-events: none;
+}
+
+.venta-select {
+  width: 100%;
+  height: 37.6px;
+  border: 0.8px solid var(--app-border);
+  border-radius: 10px;
+  padding: 0 12.8px 0 34.8px;
+  font-size: 14px;
+  color: #0a0a0a;
+  background-color: #ffffff;
+  appearance: none;
+  cursor: pointer;
+}
+
+.venta-add-button {
+  width: 100%;
+  height: 36px;
+  background-color: var(--app-accent-green);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.venta-add-button:hover {
+  opacity: 0.9;
+}
+
+/* Cart column */
+.venta-cart-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.venta-cart-card {
+  background-color: #ffffff;
+  border: 0.8px solid var(--app-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.venta-cart-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0a0a0a;
+  margin: 0;
+  padding: 16px 24px 16.8px 24px;
+  border-bottom: 0.8px solid var(--app-border-light);
+}
+
+.venta-cart-empty {
+  padding: 32.8px 24.8px 56.8px 24.8px;
+  text-align: center;
+}
+
+.venta-cart-empty-title {
+  font-size: 18px;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.venta-cart-empty-subtitle {
+  font-size: 14px;
+  color: var(--app-muted-text);
+  margin: 8px 0 0 0;
+}
+
+.venta-cart-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.venta-cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px 12.8px 24px;
+  border-bottom: 0.8px solid var(--app-border-light);
+}
+
+.venta-cart-item:last-child {
+  border-bottom: none;
+}
+
+.venta-cart-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0a0a0a;
+  margin: 0;
+}
+
+.venta-cart-item-price {
+  font-size: 12px;
+  color: var(--app-muted-text);
+  margin: 0;
+}
+
+.venta-cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.venta-qty-button {
+  width: 24px;
+  height: 24px;
+  border: 0.8px solid var(--app-border);
+  border-radius: 4px;
+  background-color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0a0a0a;
+}
+
+.venta-qty-value {
+  width: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #0a0a0a;
+}
+
+.venta-item-subtotal {
+  width: 80px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0a0a0a;
+}
+
+.venta-remove-button {
+  background: transparent;
+  border: none;
+  color: #b42318;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+}
+
+/* Summary card */
+.venta-summary-card {
+  background-color: #ffffff;
+  border: 0.8px solid var(--app-border);
+  border-radius: 14px;
+  padding: 20.8px 24.8px;
+}
+
+.venta-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16.8px;
+  border-top: 0.8px solid var(--app-border-light);
+}
+
+.venta-total-label {
+  font-size: 18px;
+  color: #0a0a0a;
+}
+
+.venta-total-value {
+  font-size: 24px;
+  color: #0a0a0a;
+}
+
+.venta-actions-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.venta-cancel-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 37.6px;
+  background-color: #ffffff;
+  border: 0.8px solid var(--app-border);
+  border-radius: 10px;
+  font-size: 14px;
+  color: #0a0a0a;
+  cursor: pointer;
+}
+
+.venta-finish-button {
+  flex: 1;
+  height: 37.6px;
+  background-color: var(--app-navbar-bg);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.venta-finish-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.venta-autocomplete-wrapper {
+  position: relative;
+}
+
+.venta-autocomplete-input {
+  width: 100%;
+  height: 37.6px;
+  border: 0.8px solid var(--app-border);
+  border-radius: 10px;
+  padding: 0 12.8px 0 34.8px;
+  font-size: 14px;
+  color: #0a0a0a;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.venta-autocomplete-input:focus {
+  border-color: var(--app-navbar-bg);
+}
+
+.venta-autocomplete-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 0.8px solid var(--app-border);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 10;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+}
+
+.venta-autocomplete-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.venta-autocomplete-item:hover {
+  background-color: #f3f4f6;
+}
+
+.venta-autocomplete-price {
+  color: var(--app-muted-text);
+}

@@ -1,0 +1,74 @@
+.navbar {
+  background-color: var(--app-navbar-bg);
+  height: 53px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.navbar-link {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: #99a1af;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.navbar-link-active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.navbar-badge {
+  position: absolute;
+  top: -6px;
+  right: 2px;
+  background-color: var(--app-badge-red);
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 999px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar-role-pill {
+  background-color: #ffffff;
+  color: #0a0a0a;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.navbar-logout-button {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}

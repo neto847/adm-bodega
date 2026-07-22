@@ -1,0 +1,14 @@
+import '../Styles/componentes/TopBar.css';
+
+function TopBar({ title, subtitle }) {
+  return (
+    <header className="topbar">
+      <div>
+        <h1 className="topbar-title">{title}</h1>
+        {subtitle && <p className="topbar-subtitle">{subtitle}</p>}
+      </div>
+    </header>
+  );
+}
+
+export default TopBar;

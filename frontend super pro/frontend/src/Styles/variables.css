@@ -1,0 +1,20 @@
+:root {
+  /* Colores de marca (definidos previamente) */
+  --primary-color: rgb(31, 78, 121);
+  --secondary-color: rgb(90, 90, 90);
+
+  --app-navbar-bg: #1f7a4d;
+  --app-accent-green: #15803d;
+  --app-positive-text: #1f7a4d;
+  --app-border: #e5e7eb;
+  --app-border-light: #f3f4f6;
+  --app-muted-text: #6a7282;
+  --app-heading-text: #101828;
+  --app-danger-bg: #fde2e2;
+  --app-danger-text: #b42318;
+  --app-warning-bg: #fff3cd;
+  --app-warning-text: #d08700;
+  --app-success-bg: #dcfce7;
+  --app-badge-red: #fb2c36;
+  --app-chart-bar-color: #bbd7f7;
+}

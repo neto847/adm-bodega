@@ -1,0 +1,123 @@
+.hist-content {
+  padding: 32px 24px;
+}
+
+/* Toolbar */
+.inv-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inv-search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.inv-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--app-muted-text);
+  pointer-events: none;
+}
+
+.inv-search-input {
+  width: 100%;
+  height: 36px;
+  border: 0.8px solid var(--app-border);
+  border-radius: 10px;
+  padding: 0 12px 0 36px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.inv-filter-select {
+  height: 37.6px;
+  border: 0.8px solid var(--app-border);
+  border-radius: 10px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #0a0a0a;
+  background-color: #ffffff;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+/* Table */
+.inv-table-wrapper {
+  border: 0.8px solid var(--app-border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 24px;
+}
+
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.inv-table th {
+  text-align: left;
+  color: #0a0a0a;
+  font-weight: 500;
+  padding: 10px 8px;
+  background-color: #ffffff;
+  border-bottom: 0.8px solid var(--app-border);
+}
+
+.inv-table td {
+  padding: 14px 8px;
+  border-bottom: 0.8px solid rgba(0, 0, 0, 0.1);
+  color: #0a0a0a;
+}
+
+.inv-row-bajo-stock {
+  background-color: #fef2f2;
+}
+
+.inv-cell-nombre {
+  font-weight: 500;
+}
+
+.inv-stock-normal {
+  color: #00a63e;
+}
+
+.inv-stock-bajo {
+  color: #d08700;
+}
+
+.inv-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 999px;
+  color: #ffffff;
+  background-color: #0a0a0a;
+}
+
+.inv-badge-inactivo,
+.inv-badge-deshabilitado {
+  background-color: #f3f4f6;
+  border: 0.8px solid #d1d5dc;
+  color: #4a5565;
+}
+
+.inv-badge-descontinuado {
+  background-color: #fb2c36;
+}
+
+.inv-table-footer {
+  background-color: #f9fafb;
+  border-top: 0.8px solid var(--app-border);
+  padding: 12.8px 20px 12px 20px;
+  font-size: 12px;
+  color: var(--app-muted-text);
+}
