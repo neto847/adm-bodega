@@ -71,7 +71,7 @@ mvn -q -DskipTests package
 cd /home/ubuntu/adm-bodega/frontend\ super\ pro/frontend
 cp .env.example .env
 ```
-Edita `.env` con la IP pública de la instancia EC2:
+Edita `.env` solo si quieres forzar una URL externa. Si Nginx hará proxy al backend, puedes omitir este archivo y usar rutas relativas `/api`:
 ```env
 VITE_API_URL=http://<EC2_PUBLIC_IP>:3000
 ```
@@ -146,6 +146,8 @@ sudo rm -f /etc/nginx/sites-enabled/default
 sudo nginx -t
 sudo systemctl restart nginx
 ```
+
+Con esta configuración de Nginx, el frontend puede usar `/api` sin depender de una IP pública fija. Eso evita que la aplicación se rompa cuando la EC2 cambia de IP tras un reinicio o stop/start.
 
 ## 11. Probar la aplicación
 Abre en el navegador:
