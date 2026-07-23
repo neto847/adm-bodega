@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
+import { obtenerAlertasCaducidad } from '../services/alertaService';
+import { obtenerDashboardDueno } from '../services/dashboardService';
 import '../Styles/Pages/PanelDueno.css';
 
 // Aquí se llamará a panelService.js para traer datos reales
@@ -71,6 +73,7 @@ function Icon({ type, size = 18 }) {
 function PanelDueno() {
   const navigate = useNavigate();
   const [alertasVencimiento, setAlertasVencimiento] = useState({ cantidad: 5, valorEnRiesgo: 4040.41 });
+  const [metricasUI, setMetricasUI] = useState(METRICAS);
 
   const fechaHoy = useMemo(() => {
      const hoy = new Date();
@@ -84,8 +87,64 @@ function PanelDueno() {
    }, []);
 
   useEffect(() => {
-    // Aquí se llamará a panelService.js
-    // Ejemplo: panelService.getResumenDueno().then(...)
+    const cargarPanel = async () => {
+      try {
+        const [dashboardDueno, alertas] = await Promise.all([
+          obtenerDashboardDueno(),
+          obtenerAlertasCaducidad(),
+        ]);
+
+        const lotes = Array.isArray(alertas?.lotes) ? alertas.lotes : [];
+        setAlertasVencimiento({
+          cantidad: lotes.length,
+          valorEnRiesgo: 0,
+        });
+
+        setMetricasUI((prev) =>
+          prev.map((m) => {
+            if (m.label === 'Ingresos totales') {
+              return {
+                ...m,
+                value: `$${Number(dashboardDueno?.ingresosTotales || 0).toFixed(2)}`,
+                detail: `${(dashboardDueno?.topProductos || []).length} productos con ventas`,
+              };
+            }
+
+            if (m.label === 'Ingresos esta semana') {
+              return {
+                ...m,
+                value: `$${Number(dashboardDueno?.ventasDeHoy || 0).toFixed(2)}`,
+                detail: 'Ventas del dia actual',
+              };
+            }
+
+            if (m.label === 'Margen estimado') {
+              return {
+                ...m,
+                value: `$${Number(dashboardDueno?.ticketPromedio || 0).toFixed(2)}`,
+                label: 'Ticket promedio',
+                detail: 'Promedio historico por venta',
+              };
+            }
+
+            if (m.label === 'Lotes venciendo') {
+              return {
+                ...m,
+                value: String(lotes.length),
+                trend: `${lotes.length} lotes caducados`,
+                detail: 'Tomado de alertas de caducidad',
+              };
+            }
+
+            return m;
+          })
+        );
+      } catch (error) {
+        console.error('Error al cargar el panel del dueño:', error);
+      }
+    };
+
+    cargarPanel();
   }, []);
 
   //ahora si, el html pro
@@ -117,7 +176,7 @@ function PanelDueno() {
         </section>
 
         <section className="dueno-panel-metrics-grid">
-          {METRICAS.map((m) => (
+          {metricasUI.map((m) => (
             <div className="dueno-panel-metric-card" key={m.label}>
               <div className="dueno-panel-metric-top">
                 <div className="dueno-panel-metric-icon">

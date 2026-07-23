@@ -3,6 +3,7 @@ package com.admbodega;
 import com.admbodega.controller.CategoriaController;
 import com.admbodega.controller.CompraController;
 import com.admbodega.controller.DashboardController;
+import com.admbodega.controller.AlertaCaducidadController;
 import com.admbodega.controller.MermaController;
 import com.admbodega.controller.MovimientoInventarioController;
 import com.admbodega.controller.ProductoController;
@@ -16,7 +17,7 @@ import io.javalin.Javalin;
 public class Main {
     public static void main(String[] args) {
         
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
         int port = Integer.parseInt(dotenv.get("PORT", "3000"));
         
         // Inicializamos el servidor
@@ -47,6 +48,10 @@ public class Main {
         app.get("/api/productos", ProductoController::listarProductos);
         // NUEVA RUTA: Recibe datos para guardar un nuevo producto en el catálogo
         app.post("/api/productos", ProductoController::crearProducto);
+        // NUEVA RUTA: Actualiza un producto existente
+        app.put("/api/productos/{id}", ProductoController::actualizarProducto);
+        // NUEVA RUTA: Elimina un producto del catálogo
+        app.delete("/api/productos/{id}", ProductoController::eliminarProducto);
         // NUEVA RUTA: Recibe un carrito de compras completo para procesar la venta
         app.post("/api/ventas", VentaController::crearVenta);
         // NUEVA RUTA: Para que el frontend consulte el historial de ventas
@@ -55,14 +60,29 @@ public class Main {
         app.post("/api/mermas", MermaController::registrarMerma);
         // NUEVA RUTA: Registrar a un proveedor
         app.post("/api/proveedores", ProveedorController::registrarProveedor);
+        // NUEVA RUTA: Listar proveedores
+        app.get("/api/proveedores", ProveedorController::listarProveedores);
+        // NUEVA RUTA: Eliminar proveedor
+        app.delete("/api/proveedores/{id}", ProveedorController::eliminarProveedor);
+        // NUEVA RUTA: Eliminar categoría
+        app.delete("/api/categorias/{id}", CategoriaController::eliminarCategoria);
         // NUEVA RUTA: Recibir mercancía de proveedores
         app.post("/api/compras", CompraController::registrarCompra);
         // NUEVA RUTA: Leer el Kardex (Historial de movimientos de la bodega)
         app.get("/api/movimientos", MovimientoInventarioController::obtenerHistorial);
         // NUEVA RUTA: Punto de acceso al sistema (Login)
         app.post("/api/login", UsuarioController::login);
+        // NUEVAS RUTAS: Gestión de usuarios para roles y permisos
+        app.get("/api/usuarios", UsuarioController::listarUsuarios);
+        app.post("/api/usuarios", UsuarioController::crearUsuario);
+        app.delete("/api/usuarios/{id}", UsuarioController::eliminarUsuario);
+        // NUEVA RUTA: Endpoint para alertas de caducidad/lotes
+        app.get("/api/alertas/caducidad", AlertaCaducidadController::obtenerAlertasCaducidad);
+        app.get("/api/lotes/vencimientos", AlertaCaducidadController::obtenerAlertasCaducidad);
         // NUEVA RUTA: El cerebro del sistema (Ventas de hoy y alertas de stock)
         app.get("/api/dashboard", DashboardController::obtenerResumen);
+        // NUEVA RUTA: Métricas extendidas para panel de dueño
+        app.get("/api/dashboard/dueno", DashboardController::obtenerResumenDueno);
     
         System.out.println(" Servidor corriendo dinámicamente en el puerto: " + port);
     }

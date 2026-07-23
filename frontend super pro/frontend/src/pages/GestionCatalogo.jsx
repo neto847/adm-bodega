@@ -1,5 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import {
+  crearCategoria,
+  crearProveedor,
+  eliminarCategoria,
+  eliminarProveedor,
+  listarCategorias,
+  listarProveedores,
+} from '../services/catalogoService';
 import '../Styles/Pages/GestionCatalogo.css';
 
 // Aquí se llamará a catalogoService.js para traer datos reales
@@ -51,13 +59,42 @@ function GestionCatalogo() {
    const [mostrarFormEliminarProveedor, setMostrarFormEliminarProveedor] = useState(false);
    const [proveedorAEliminar, setProveedorAEliminar] = useState('');
 
+  const recargarCatalogo = async () => {
+    const [categoriasApi, proveedoresApi] = await Promise.all([
+      listarCategorias(),
+      listarProveedores(),
+    ]);
+
+    setCategorias(
+      (categoriasApi || []).map((c) => ({
+        id: c.idCategoria,
+        nombre: c.nombre,
+      }))
+    );
+
+    setProveedores(
+      (proveedoresApi || []).map((p) => ({
+        id: p.idProveedor,
+        nombre: p.nombre,
+        iniciales: iniciales(p.nombre || 'PR'),
+      }))
+    );
+  };
+
+  useEffect(() => {
+    recargarCatalogo().catch((err) => {
+      console.error('Error al cargar catálogo:', err);
+    });
+  }, []);
+
   const handleGuardarCategoria = async () => {
     if (!nuevaCategoria.trim()) return;
     try {
-      // Aquí se llamará a catalogoService.js
-      // Ejemplo: await catalogoService.crearCategoria({ nombre: nuevaCategoria });
-      const nuevoId = Math.max(...categorias.map((c) => c.id), 0) + 1;
-      setCategorias((prev) => [...prev, { id: nuevoId, nombre: nuevaCategoria.trim() }]);
+      await crearCategoria({
+        nombre: nuevaCategoria.trim(),
+        descripcion: 'Creada desde la interfaz',
+      });
+      await recargarCatalogo();
       setNuevaCategoria('');
       setMostrarFormCategoria(false);
     } catch (err) {
@@ -68,17 +105,14 @@ function GestionCatalogo() {
   const handleGuardarProveedor = async () => {
     if (!nuevoProveedor.nombre.trim()) return;
     try {
-      // Aquí se llamará a catalogoService.js
-      // Ejemplo: await catalogoService.crearProveedor(nuevoProveedor);
-      const nuevoId = Math.max(...proveedores.map((p) => p.id), 0) + 1;
-      setProveedores((prev) => [
-        ...prev,
-        {
-          id: nuevoId,
-          nombre: nuevoProveedor.nombre.trim(),
-          iniciales: nuevoProveedor.iniciales.trim() || iniciales(nuevoProveedor.nombre),
-        },
-      ]);
+      await crearProveedor({
+        nombre: nuevoProveedor.nombre.trim(),
+        telefono: '',
+        email: '',
+        direccion: '',
+        activo: true,
+      });
+      await recargarCatalogo();
       setNuevoProveedor({ nombre: '', iniciales: '', color: 0 });
       setMostrarFormProveedor(false);
     } catch (err) {
@@ -89,9 +123,8 @@ function GestionCatalogo() {
   const handleEliminarCategoria = async () => {
      if (!categoriaAEliminar) return;
      try {
-       // Aquí se llamará a catalogoService.js
-       // Ejemplo: await catalogoService.eliminarCategoria(categoriaAEliminar);
-       setCategorias((prev) => prev.filter((c) => String(c.id) !== categoriaAEliminar));
+       await eliminarCategoria(categoriaAEliminar);
+       await recargarCatalogo();
        setCategoriaAEliminar('');
        setMostrarFormEliminarCategoria(false);
      } catch (err) {
@@ -102,9 +135,8 @@ function GestionCatalogo() {
    const handleEliminarProveedor = async () => {
      if (!proveedorAEliminar) return;
      try {
-       // Aquí se llamará a catalogoService.js
-       // Ejemplo: await catalogoService.eliminarProveedor(proveedorAEliminar);
-       setProveedores((prev) => prev.filter((p) => String(p.id) !== proveedorAEliminar));
+       await eliminarProveedor(proveedorAEliminar);
+       await recargarCatalogo();
        setProveedorAEliminar('');
        setMostrarFormEliminarProveedor(false);
      } catch (err) {

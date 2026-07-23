@@ -42,4 +42,26 @@ public class CategoriaController {
             ctx.result("Hubo un error al guardar la categoría");
         }
     }
+
+    public static void eliminarCategoria(Context ctx) {
+        try {
+            int idCategoria = Integer.parseInt(ctx.pathParam("id"));
+            CategoriaRepository repo = new CategoriaRepository();
+            boolean exito = repo.eliminarPorId(idCategoria);
+
+            if (exito) {
+                ctx.status(200);
+                ctx.result("Categoría eliminada correctamente.");
+            } else {
+                ctx.status(409);
+                ctx.result("No se pudo eliminar la categoría (no existe o tiene productos asociados).");
+            }
+        } catch (NumberFormatException e) {
+            ctx.status(400);
+            ctx.result("El id de categoría es inválido.");
+        } catch (Exception e) {
+            ctx.status(500);
+            ctx.result("Error interno al eliminar la categoría.");
+        }
+    }
 }

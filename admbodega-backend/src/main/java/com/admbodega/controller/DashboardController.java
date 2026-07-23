@@ -15,4 +15,11 @@ public class DashboardController {
         ctx.status(200);
         ctx.json(resumen);
     }
+
+    public static void obtenerResumenDueno(Context ctx) {
+        DashboardRepository repo = new DashboardRepository();
+        java.util.Map<String, Object> resumen = repo.obtenerDatosDashboardDueno();
+        ctx.status(200);
+        ctx.json(resumen);
+    }
 }

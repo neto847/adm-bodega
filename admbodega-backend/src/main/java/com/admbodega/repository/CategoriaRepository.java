@@ -91,4 +91,24 @@ public class CategoriaRepository {
             return false;
         }
     }
+
+    public boolean eliminarPorId(int idCategoria) {
+        String sql = "DELETE FROM categorias WHERE id_categoria = ?";
+
+        try {
+            Connection conexion = DatabaseConfig.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(sql);
+            consulta.setInt(1, idCategoria);
+
+            int filasAfectadas = consulta.executeUpdate();
+
+            consulta.close();
+            conexion.close();
+
+            return filasAfectadas > 0;
+        } catch (Exception e) {
+            System.out.println("Error al eliminar categoría: " + e.getMessage());
+            return false;
+        }
+    }
 }

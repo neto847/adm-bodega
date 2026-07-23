@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Layout from '../components/Layout';
+import { obtenerAlertasCaducidad } from '../services/alertaService';
 import '../Styles/Pages/AlertasCaducidad.css';
 
 // Aquí se llamará a alertaService.js para traer los lotes reales
@@ -35,6 +36,36 @@ function AlertasCaducidad() {
   const [tabActiva, setTabActiva] = useState('todos');
   const [categoriaFiltro, setCategoriaFiltro] = useState('');
   const [orden, setOrden] = useState('vencimiento');
+
+  useEffect(() => {
+    const cargarAlertas = async () => {
+      try {
+        const payload = await obtenerAlertasCaducidad();
+        const lotesApi = Array.isArray(payload?.lotes) ? payload.lotes : [];
+        if (!lotesApi.length) return;
+
+        const normalizados = lotesApi.map((item, idx) => ({
+          id: item.id ?? idx + 1,
+          producto: item.producto || 'Producto',
+          lote: `MERMA-${item.id ?? idx + 1}`,
+          categoria: item.categoria || 'Sin categoría',
+          cantidad: Number(item.cantidad || 0),
+          valor: 0,
+          vencimiento: item.fechaReferencia ? new Date(item.fechaReferencia).toLocaleDateString('es-MX') : 'N/A',
+          diasTexto: 'Registrado como caducado',
+          estado: 'vencido',
+          proveedor: 'N/A',
+          revisado: false,
+        }));
+
+        setLotes(normalizados);
+      } catch (err) {
+        console.error('Error al cargar alertas de caducidad:', err);
+      }
+    };
+
+    cargarAlertas();
+  }, []);
 
   const categorias = useMemo(
     () => [...new Set(lotes.map((l) => l.categoria))].sort(),

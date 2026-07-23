@@ -113,4 +113,53 @@ public class ProductoRepository {
 
         return productoEncontrado; // Si no lo encuentra, devuelve 'null'
     }
+
+    public boolean actualizarProducto(Producto producto) {
+        String sql = "UPDATE productos SET id_categoria = ?, id_estado = ?, codigo_barras = ?, nombre = ?, descripcion = ?, precio_compra = ?, precio_venta = ?, stock_actual = ? WHERE id_producto = ?";
+
+        try {
+            Connection conexion = DatabaseConfig.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(sql);
+
+            consulta.setInt(1, producto.getIdCategoria());
+            consulta.setInt(2, producto.getIdEstado());
+            consulta.setString(3, producto.getCodigoBarras());
+            consulta.setString(4, producto.getNombre());
+            consulta.setString(5, producto.getDescripcion());
+            consulta.setDouble(6, producto.getPrecioCompra());
+            consulta.setDouble(7, producto.getPrecioVenta());
+            consulta.setInt(8, producto.getStockActual());
+            consulta.setInt(9, producto.getIdProducto());
+
+            int filasAfectadas = consulta.executeUpdate();
+
+            consulta.close();
+            conexion.close();
+
+            return filasAfectadas > 0;
+        } catch (Exception e) {
+            System.out.println("Error al actualizar producto: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean eliminarProducto(int idProducto) {
+        String sql = "DELETE FROM productos WHERE id_producto = ?";
+
+        try {
+            Connection conexion = DatabaseConfig.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(sql);
+            consulta.setInt(1, idProducto);
+
+            int filasAfectadas = consulta.executeUpdate();
+
+            consulta.close();
+            conexion.close();
+
+            return filasAfectadas > 0;
+        } catch (Exception e) {
+            System.out.println("Error al eliminar producto: " + e.getMessage());
+            return false;
+        }
+    }
 }

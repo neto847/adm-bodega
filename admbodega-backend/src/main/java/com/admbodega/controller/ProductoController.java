@@ -42,6 +42,55 @@ public class ProductoController {
             ctx.result("Error 400: Revisa el formato JSON enviado desde el frontend.");
         }
     }
+
+    public static void actualizarProducto(Context ctx) {
+        try {
+            int idProducto = Integer.parseInt(ctx.pathParam("id"));
+            Producto productoRecibido = ctx.bodyAsClass(Producto.class);
+            productoRecibido.setIdProducto(idProducto);
+
+            ProductoRepository repo = new ProductoRepository();
+            boolean exito = repo.actualizarProducto(productoRecibido);
+
+            if (exito) {
+                ctx.status(200);
+                ctx.result("Producto actualizado correctamente.");
+            } else {
+                ctx.status(404);
+                ctx.result("No se encontró el producto a actualizar.");
+            }
+        } catch (NumberFormatException e) {
+            ctx.status(400);
+            ctx.result("El id del producto es inválido.");
+        } catch (Exception e) {
+            ctx.status(400);
+            ctx.result("Error 400: Revisa el formato JSON enviado desde el frontend.");
+        }
+    }
+
+    public static void eliminarProducto(Context ctx) {
+        try {
+            int idProducto = Integer.parseInt(ctx.pathParam("id"));
+
+            ProductoRepository repo = new ProductoRepository();
+            boolean exito = repo.eliminarProducto(idProducto);
+
+            if (exito) {
+                ctx.status(200);
+                ctx.result("Producto eliminado correctamente.");
+            } else {
+                ctx.status(404);
+                ctx.result("No se encontró el producto a eliminar.");
+            }
+        } catch (NumberFormatException e) {
+            ctx.status(400);
+            ctx.result("El id del producto es inválido.");
+        } catch (Exception e) {
+            ctx.status(500);
+            ctx.result("Error interno al eliminar el producto.");
+        }
+    }
+
     // Método recuperado para atender la petición del frontend
     public static void buscarPorCodigo(Context ctx) {
         try {

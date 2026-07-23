@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import Layout from '../components/Layout';
-import { crearProducto, listarProductos } from '../services/productoService';
+import {
+  actualizarProducto,
+  crearProducto,
+  eliminarProducto,
+  listarProductos,
+} from '../services/productoService';
 import '../Styles/Pages/GestionProductos.css';
 
 const ESTADOS = ['Activo', 'Inactivo', 'Deshabilitado', 'Descontinuado'];
@@ -22,19 +27,24 @@ function GestionProductos() {
     estado: 'Activo',
   });
 
+  const mapProducto = (p) => ({
+    id: p.idProducto,
+    nombre: p.nombre,
+    categoria: p.idCategoria === 1 ? 'Lácteos y embutidos' : 'Limpieza/Hogar',
+    precio: Number(p.precioVenta || 0),
+    stock: Number(p.stockActual || 0),
+    estado: p.idEstado === 1 ? 'Activo' : 'Descontinuado',
+  });
+
+  const recargarProductos = async () => {
+    const datos = await listarProductos();
+    setProductos((datos || []).map(mapProducto));
+  };
+
   useEffect(() => {
     const cargarProductos = async () => {
       try {
-        const datos = await listarProductos();
-        const normalizados = (datos || []).map((p) => ({
-          id: p.idProducto,
-          nombre: p.nombre,
-          categoria: p.idCategoria === 1 ? 'Lácteos y embutidos' : 'Limpieza/Hogar',
-          precio: Number(p.precioVenta || 0),
-          stock: Number(p.stockActual || 0),
-          estado: p.idEstado === 1 ? 'Activo' : 'Descontinuado',
-        }));
-        setProductos(normalizados);
+        await recargarProductos();
       } catch (error) {
         console.error('Error al cargar productos:', error);
       }
@@ -103,17 +113,12 @@ function GestionProductos() {
     };
 
     try {
-      await crearProducto(datosProducto);
-      const datos = await listarProductos();
-      const normalizados = (datos || []).map((p) => ({
-        id: p.idProducto,
-        nombre: p.nombre,
-        categoria: p.idCategoria === 1 ? 'Lácteos y embutidos' : 'Limpieza/Hogar',
-        precio: Number(p.precioVenta || 0),
-        stock: Number(p.stockActual || 0),
-        estado: p.idEstado === 1 ? 'Activo' : 'Descontinuado',
-      }));
-      setProductos(normalizados);
+      if (productoEditando) {
+        await actualizarProducto(productoEditando.id, datosProducto);
+      } else {
+        await crearProducto(datosProducto);
+      }
+      await recargarProductos();
       handleCerrarModal();
     } catch (err) {
       console.error('Error al guardar el producto:', err);
@@ -121,9 +126,12 @@ function GestionProductos() {
   };
 
   const handleEliminar = async (id) => {
-    // Aquí se llamará a productoService.js
-    // Ejemplo: await productoService.eliminar(id);
-    setProductos((prev) => prev.filter((p) => p.id !== id));
+    try {
+      await eliminarProducto(id);
+      await recargarProductos();
+    } catch (err) {
+      console.error('Error al eliminar el producto:', err);
+    }
   };
 
 ////////////////////////////////

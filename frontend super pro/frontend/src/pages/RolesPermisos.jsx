@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
+import { crearUsuario, eliminarUsuario, listarUsuarios } from '../services/usuarioService';
 import '../Styles/Pages/RolesPermisos.css';
 
 // Aquí se llamará a usuarioService.js para traer los usuarios reales
@@ -34,6 +35,23 @@ function RolesPermisos() {
   const duenos = usuarios.filter((u) => u.rol === 'Dueño');
   const encargados = usuarios.filter((u) => u.rol === 'Encargado');
 
+  const recargarUsuarios = async () => {
+    const datos = await listarUsuarios();
+    const normalizados = (datos || []).map((u) => ({
+      id: u.idUsuario,
+      nombre: u.nombre,
+      correo: u.email,
+      rol: u.idRol === 1 ? 'Dueño' : 'Encargado',
+    }));
+    setUsuarios(normalizados);
+  };
+
+  useEffect(() => {
+    recargarUsuarios().catch((err) => {
+      console.error('Error al cargar usuarios:', err);
+    });
+  }, []);
+
   const handleAbrirModal = () => {
     setNuevoUsuario({ nombre: '', correo: '', password: '', rol: 'Encargado' });
     setMostrarModal(true);
@@ -50,18 +68,13 @@ function RolesPermisos() {
     }
 
     try {
-      // Aquí se llamará a usuarioService.js
-      // Ejemplo: await usuarioService.crear(nuevoUsuario);
-      const nuevoId = Math.max(...usuarios.map((u) => u.id), 0) + 1;
-      setUsuarios((prev) => [
-        ...prev,
-        {
-          id: nuevoId,
-          nombre: nuevoUsuario.nombre.trim(),
-          correo: nuevoUsuario.correo.trim(),
-          rol: nuevoUsuario.rol,
-        },
-      ]);
+      await crearUsuario({
+        nombre: nuevoUsuario.nombre.trim(),
+        correo: nuevoUsuario.correo.trim(),
+        password: nuevoUsuario.password,
+        rol: nuevoUsuario.rol,
+      });
+      await recargarUsuarios();
       setMostrarModal(false);
     } catch (err) {
       console.error('Error al crear el usuario:', err);
@@ -69,9 +82,12 @@ function RolesPermisos() {
   };
 
   const handleEliminarUsuario = async (id) => {
-    // Aquí se llamará a usuarioService.js
-    // Ejemplo: await usuarioService.eliminar(id);
-    setUsuarios((prev) => prev.filter((u) => u.id !== id));
+    try {
+      await eliminarUsuario(id);
+      await recargarUsuarios();
+    } catch (err) {
+      console.error('Error al eliminar usuario:', err);
+    }
   };
 
   return (

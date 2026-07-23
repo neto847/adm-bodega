@@ -9,7 +9,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class DatabaseConfig {
 
     public static Connection getConnection() throws SQLException {
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
 
         String host = dotenv.get("DB_HOST", "localhost");
         String port = dotenv.get("DB_PORT", "3306");

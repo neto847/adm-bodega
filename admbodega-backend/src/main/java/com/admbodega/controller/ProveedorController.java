@@ -30,4 +30,38 @@ public class ProveedorController {
             ctx.result("Error 400: El formato del JSON enviado es incorrecto.");
         }
     }
+
+    public static void listarProveedores(Context ctx) {
+        try {
+            ProveedorRepository repo = new ProveedorRepository();
+            java.util.List<Proveedor> proveedores = repo.listarProveedores();
+            ctx.status(200);
+            ctx.json(proveedores);
+        } catch (Exception e) {
+            ctx.status(500);
+            ctx.result("Error al listar proveedores.");
+        }
+    }
+
+    public static void eliminarProveedor(Context ctx) {
+        try {
+            int idProveedor = Integer.parseInt(ctx.pathParam("id"));
+            ProveedorRepository repo = new ProveedorRepository();
+            boolean exito = repo.eliminarProveedor(idProveedor);
+
+            if (exito) {
+                ctx.status(200);
+                ctx.result("Proveedor eliminado correctamente.");
+            } else {
+                ctx.status(409);
+                ctx.result("No se pudo eliminar el proveedor (no existe o tiene compras asociadas).");
+            }
+        } catch (NumberFormatException e) {
+            ctx.status(400);
+            ctx.result("El id de proveedor es inválido.");
+        } catch (Exception e) {
+            ctx.status(500);
+            ctx.result("Error interno al eliminar proveedor.");
+        }
+    }
 }
