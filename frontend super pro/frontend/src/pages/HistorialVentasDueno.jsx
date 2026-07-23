@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useMemo } from 'react';
 import Layout from '../components/Layout';
-import '../styles/pages/HistorialVentasDueno.css';
+import '../Styles/Pages/historialVentasDueno.css';
 
 // Aquí se llamará a ventaService.js (o como se llame) para traer los datos guardados en la base de datos
 const VENTAS_INICIALES = [

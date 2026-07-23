@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
-import '../styles/pages/PanelDueno.css';
+import '../Styles/Pages/PanelDueno.css';
 
 // Aquí se llamará a panelService.js para traer datos reales
 const METRICAS = [
