@@ -1,38 +1,51 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Layout from '../components/Layout';
+import { obtenerHistorialVentas } from '../services/ventaService';
 import '../Styles/Pages/historialVentasDueno.css';
 
-// Aquí se llamará a ventaService.js (o como se llame) para traer los datos guardados en la base de datos
-const VENTAS_INICIALES = [
-  { id: 1, producto: 'Leche Lala', total: 899.99, fecha: '16/03/2026', estado: 'completado' },
-  { id: 2, producto: 'Mouse Inalámbrico', total: 25.5, fecha: '20/02/2026', estado: 'pendiente' },
-  { id: 3, producto: 'Pasta Dental Crest', total: 35.0, fecha: '18/02/2026', estado: 'completado' },
-  { id: 4, producto: 'Queso Chédar', total: 45.99, fecha: '15/02/2026', estado: 'completado' },
-  { id: 5, producto: 'Café Orgánico 500g', total: 12.99, fecha: '13/02/2026', estado: 'pendiente' },
-  { id: 6, producto: 'Té Verde', total: 8.5, fecha: '10/02/2026', estado: 'completado' },
-  { id: 7, producto: 'Lámpara LED', total: 22.0, fecha: '10/02/2026', estado: 'completado' },
-  { id: 8, producto: 'Salchicha Food', total: 15.99, fecha: '05/02/2026', estado: 'pendiente' },
-  { id: 9, producto: 'Cepillo Dental', total: 29.99, fecha: '03/02/2026', estado: 'pendiente' },
-  { id: 10, producto: 'Nissi', total: 85.0, fecha: '20/01/2026', estado: 'completado' },
-  { id: 11, producto: 'Refresco Sprite', total: 120.0, fecha: '16/01/2026', estado: 'completado' },
-  { id: 12, producto: 'Coca Cola', total: 189.99, fecha: '14/01/2026', estado: 'pendiente' },
-];
 //los filtrooss
 const TABS = [
   { key: 'todos', label: 'Todos' },
   { key: 'completado', label: 'Completado' },
-  { key: 'pendiente', label: 'Pendiente' },
 ];
 //lo de arriba de la tabla de ventas
 function HistorialVentasDueno() {
   const navigate = useNavigate();
-  const [ventas] = useState(VENTAS_INICIALES);
+  const [ventas, setVentas] = useState([]);
   const [busqueda, setBusqueda] = useState('');
   const [tabActiva, setTabActiva] = useState('todos');
 
+  useEffect(() => {
+    const cargarHistorial = async () => {
+      try {
+        const historial = await obtenerHistorialVentas();
+        const normalizadas = (historial || []).map((v) => {
+          const id = v.idVenta ?? v.id_venta ?? v.id ?? 0;
+          const fechaBase = v.fechaVenta ?? v.fecha_venta ?? null;
+          const fecha = fechaBase
+            ? new Date(fechaBase).toLocaleDateString('es-MX')
+            : 'N/A';
+
+          return {
+            id,
+            producto: `Venta #${id}`,
+            total: Number(v.total || 0),
+            fecha,
+            estado: 'completado',
+          };
+        });
+
+        setVentas(normalizadas);
+      } catch (error) {
+        console.error('Error al cargar historial de ventas:', error);
+      }
+    };
+
+    cargarHistorial();
+  }, []);
+
   const ventasCompletadas = ventas.filter((v) => v.estado === 'completado');
-  const ventasPendientes = ventas.filter((v) => v.estado === 'pendiente');
   const ingresosCompletados = ventasCompletadas.reduce((acc, v) => acc + v.total, 0);
 
   const ventasFiltradas = useMemo(() => {
@@ -90,8 +103,8 @@ function HistorialVentasDueno() {
               </svg>
             </div>
             <div>
-              <p className="historial-summary-value">{ventasPendientes.length}</p>
-              <p className="historial-summary-label">Ventas pendientes</p>
+              <p className="historial-summary-value">{ventas.length}</p>
+              <p className="historial-summary-label">Ventas registradas</p>
             </div>
           </div>
         </section>

@@ -1,26 +1,17 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
+import { crearProveedor, listarProveedores } from '../services/catalogoService';
+import { registrarCompra } from '../services/compraService';
+import { listarProductos } from '../services/productoService';
 import '../Styles/Pages/ReabastecimientoInventario.css';
-
-// Aquí se llamará a proveedorService.js y productoService.js para traer datos reales
-const PROVEEDORES_INICIALES = ['Mayoreo Central', 'Distribuidora Norte', 'Bebidas del Sureste'];
-
-//son sólo ejemplos T-T para ver cómo queda
-const CATALOGO_PRODUCTOS = [
-  { id: 1, nombre: 'Leche Lala' },
-  { id: 2, nombre: 'Queso Chédar' },
-  { id: 3, nombre: 'Café Orgánico 500g' },
-  { id: 4, nombre: 'Pasta Dental Crest' },
-  { id: 5, nombre: 'Refresco Sprite' },
-  { id: 6, nombre: 'Coca Cola' },
-];
 
 //para seleccionar proveedor, asignar nomero de lote y agregar productos para el detalle de la compra
 function ReabastecimientoInventario() {
   const navigate = useNavigate();
 
-  const [proveedores, setProveedores] = useState(PROVEEDORES_INICIALES);
+  const [proveedores, setProveedores] = useState([]);
+  const [catalogoProductos, setCatalogoProductos] = useState([]);
   const [proveedor, setProveedor] = useState('');
   const [numeroLote, setNumeroLote] = useState('');
 
@@ -38,10 +29,39 @@ function ReabastecimientoInventario() {
 
   const sugerenciasProducto = useMemo(() => {
     if (!busquedaProducto.trim()) return [];
-    return CATALOGO_PRODUCTOS.filter((p) =>
+    return catalogoProductos.filter((p) =>
       p.nombre.toLowerCase().includes(busquedaProducto.toLowerCase())
     ).slice(0, 6);
-  }, [busquedaProducto]);
+  }, [busquedaProducto, catalogoProductos]);
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        const [proveedoresApi, productosApi] = await Promise.all([
+          listarProveedores(),
+          listarProductos(),
+        ]);
+
+        setProveedores(
+          (proveedoresApi || []).map((p) => ({
+            id: p.idProveedor,
+            nombre: p.nombre,
+          }))
+        );
+
+        setCatalogoProductos(
+          (productosApi || []).map((p) => ({
+            id: p.idProducto,
+            nombre: p.nombre,
+          }))
+        );
+      } catch (err) {
+        console.error('Error al cargar catálogo de reabastecimiento:', err);
+      }
+    };
+
+    cargarDatos();
+  }, []);
 
   const totalUnidades = productosAgregados.reduce((acc, p) => acc + p.cantidad, 0);
   const totalCompra = productosAgregados.reduce((acc, p) => acc + p.cantidad * p.costoUnitario, 0);
@@ -93,10 +113,26 @@ function ReabastecimientoInventario() {
     if (!nuevoProveedor.nombre.trim()) return;
 
     try {
-      // Aquí se llamará a proveedorService.js
-      // Ejemplo: await proveedorService.crear(nuevoProveedor);
-      setProveedores((prev) => [...prev, nuevoProveedor.nombre.trim()]);
-      setProveedor(nuevoProveedor.nombre.trim());
+      await crearProveedor({
+        nombre: nuevoProveedor.nombre.trim(),
+        telefono: nuevoProveedor.telefono?.trim() || '',
+        email: '',
+        direccion: nuevoProveedor.contacto?.trim() || '',
+        activo: true,
+      });
+
+      const proveedoresApi = await listarProveedores();
+      const normalizados = (proveedoresApi || []).map((p) => ({
+        id: p.idProveedor,
+        nombre: p.nombre,
+      }));
+      setProveedores(normalizados);
+
+      const creado = normalizados.find((p) => p.nombre === nuevoProveedor.nombre.trim());
+      if (creado) {
+        setProveedor(String(creado.id));
+      }
+
       setMostrarModalProveedor(false);
     } catch (err) {
       console.error('Error al crear el proveedor:', err);
@@ -114,8 +150,16 @@ function ReabastecimientoInventario() {
     if (!progreso.proveedor || !progreso.lote || !progreso.productos) return;
 
     try {
-      // Aquí se llamará a reabastecimientoService.js
-      // Ejemplo: await reabastecimientoService.registrarEntrada({ proveedor, numeroLote, productos: productosAgregados });
+      await registrarCompra({
+        idUsuario: 1,
+        idProveedor: Number(proveedor),
+        total: totalCompra,
+        detalles: productosAgregados.map((p) => ({
+          idProducto: p.id,
+          cantidad: p.cantidad,
+          precioUnitario: p.costoUnitario,
+        })),
+      });
 
       setEntradaProcesada(true);
       setProveedor('');
@@ -159,8 +203,8 @@ return (
               >
                 <option value="">Seleccionar proveedor</option>
                 {proveedores.map((prov) => (
-                  <option key={prov} value={prov}>
-                    {prov}
+                  <option key={prov.id} value={prov.id}>
+                    {prov.nombre}
                   </option>
                 ))}
               </select>
@@ -319,7 +363,9 @@ return (
 
           <div className="reabasto-summary-row">
             <span className="reabasto-summary-label">Proveedor</span>
-            <span className="reabasto-summary-value">{proveedor || 'No seleccionado'}</span>
+            <span className="reabasto-summary-value">
+              {proveedores.find((p) => String(p.id) === String(proveedor))?.nombre || 'No seleccionado'}
+            </span>
           </div>
           <div className="reabasto-summary-row">
             <span className="reabasto-summary-label">Lote</span>
