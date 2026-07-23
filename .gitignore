@@ -4,6 +4,27 @@
 !.env.example
 !**/.env.example
 
+# Sensitive key material and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+
 # Local database files and dumps
 base de dat/
 *.sql
+
+# Java build artifacts
+**/target/
+*.class
+
+# Node/Vite build artifacts
+**/node_modules/
+**/dist/
+
+# OS/editor files
+desktop.ini
+.DS_Store
+Thumbs.db
