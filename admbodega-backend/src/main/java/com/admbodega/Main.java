@@ -15,9 +15,20 @@ import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.Javalin;
 
 public class Main {
+
+    private static Dotenv loadDotenv() {
+        Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
+        if (dotenv.get("PORT") != null) {
+            return dotenv;
+        }
+
+        // Fallback when running the jar from workspace root instead of backend folder.
+        return Dotenv.configure().directory("admbodega-backend").ignoreIfMalformed().ignoreIfMissing().load();
+    }
+
     public static void main(String[] args) {
         
-        Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
+        Dotenv dotenv = loadDotenv();
         int port = Integer.parseInt(dotenv.get("PORT", "3000"));
         
         // Inicializamos el servidor

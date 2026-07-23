@@ -8,8 +8,18 @@ import io.github.cdimascio.dotenv.Dotenv;
 
 public class DatabaseConfig {
 
-    public static Connection getConnection() throws SQLException {
+    private static Dotenv loadDotenv() {
         Dotenv dotenv = Dotenv.configure().ignoreIfMalformed().ignoreIfMissing().load();
+        if (dotenv.get("DB_URL") != null || dotenv.get("DB_HOST") != null) {
+            return dotenv;
+        }
+
+        // Fallback when running the jar from workspace root instead of backend folder.
+        return Dotenv.configure().directory("admbodega-backend").ignoreIfMalformed().ignoreIfMissing().load();
+    }
+
+    public static Connection getConnection() throws SQLException {
+        Dotenv dotenv = loadDotenv();
 
         String host = dotenv.get("DB_HOST", "localhost");
         String port = dotenv.get("DB_PORT", "3306");
