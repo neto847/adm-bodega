@@ -47,6 +47,17 @@
   margin: 0 0 32px 0;
 }
 
+.login-demo-banner {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background-color: #ecfdf5;
+  border: 1px solid #86efac;
+  color: #166534;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;

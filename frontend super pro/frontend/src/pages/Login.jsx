@@ -4,6 +4,8 @@ import { useAuth } from "../assets/Context/AuthContext";
 import { login as loginService, mapUsuarioParaUI } from '../services/authService';
 import '../Styles/Pages/Login.css';
 
+const DEMO_MODE = !import.meta.env.VITE_API_URL;
+
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -54,6 +56,12 @@ function Login() {
 
       <div className="login-card">
         <h3 className="login-card-title">Login</h3>
+
+        {DEMO_MODE && (
+          <div className="login-demo-banner">
+            Modo demo activo. Usa `diazdiazluisernesto10@gmail.com` o `caja@admbodega.com` con contraseña `123456`.
+          </div>
+        )}
 
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="login-error">{error}</div>}
